@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import microsoft.prototype.braodcastsupport.ImageLoader;
+import microsoft.prototype.broadcastsupport.ImageLoader;
 import microsoft.prototype.camerawithlib.R;
 
 public class LoadImageActivity extends AppCompatActivity {
