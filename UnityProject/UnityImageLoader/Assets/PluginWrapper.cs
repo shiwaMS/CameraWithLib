@@ -12,7 +12,7 @@ public class PluginWrapper : MonoBehaviour {
         AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
 
         var plugin = new AndroidJavaClass("microsoft.prototype.broadcastsupport.ImageLoader");
-        //textMesh.text = plugin.CallStatic<string>("loadTextureIdStr", "/storage/emulated/0/myscreen_7.png");
-        textMesh.text = plugin.CallStatic<string>("setContext", jo);
+        textMesh.text = plugin.CallStatic<string>("loadTextureIdStr", jo, "/storage/emulated/0/myscreen_7.png");
+        //textMesh.text = plugin.CallStatic<string>("setContext", jo);
 	}
 }

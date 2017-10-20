@@ -3,13 +3,16 @@ package microsoft.prototype.broadcastsupport;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.EGLSurface;
 import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.Log;
 
 import java.nio.ByteBuffer;
 
 import microsoft.prototype.broadcastsupport.gles.EglCore;
+import microsoft.prototype.broadcastsupport.gles.OffscreenSurface;
 
 import static microsoft.prototype.broadcastsupport.gles.EglCore.FLAG_RECORDABLE;
 
@@ -58,13 +61,15 @@ public class ImageLoader {
         return textureId;
     }
 
-    public static String loadTextureIdStr(String fileName) {
+    public static String loadTextureIdStr(Context context, String fileName) {
         Log.d(TAG, "loadTextureId path: " + fileName);
         Bitmap bitmap = BitmapFactory.decodeFile(fileName);
 //        Log.d(TAG, "Bitmap is: " + bitmap);
 
         if (bitmap != null) {
             EglCore eglCore = new EglCore(null, FLAG_RECORDABLE);
+            OffscreenSurface offscreenSurface = new OffscreenSurface(eglCore, 10, 10);
+            offscreenSurface.makeCurrent();
             Log.i(TAG, "Image loaded, size: " + bitmap.getWidth() + " x " + bitmap.getHeight());
             ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount());
             bitmap.copyPixelsToBuffer(buffer);
