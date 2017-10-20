@@ -20,9 +20,9 @@ public class ImageLoader {
     private static final String TAG = ImageLoader.class.getSimpleName();
     private Context context;
 
-    public static String setContext(Context context){
+    public static String setContext(Context context) {
         String result = "null";
-        if(context != null){
+        if (context != null) {
             Log.i(TAG, "set context to ImageLoader");
             result = context.getPackageName();
         }
@@ -41,6 +41,15 @@ public class ImageLoader {
         Log.d(TAG, "loadTextureId path: " + fileName);
         Bitmap bitmap = BitmapFactory.decodeFile(fileName);
 //        Log.d(TAG, "Bitmap is: " + bitmap);
+
+        if (bitmap == null) {
+            Log.e(TAG, "Failed to load bitmap");
+            return 0;
+        }
+
+        EglCore eglCore = new EglCore(null, FLAG_RECORDABLE);
+        OffscreenSurface offscreenSurface = new OffscreenSurface(eglCore, 10, 10);
+        offscreenSurface.makeCurrent();
         Log.i(TAG, "Image loaded, size: " + bitmap.getWidth() + " x " + bitmap.getHeight());
         ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount());
         bitmap.copyPixelsToBuffer(buffer);
@@ -57,6 +66,7 @@ public class ImageLoader {
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,
                 GLES20.GL_CLAMP_TO_EDGE);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+
         Log.d(TAG, "texture id returned: " + textureId);
         return textureId;
     }
