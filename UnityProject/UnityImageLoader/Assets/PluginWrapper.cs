@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -52,6 +53,10 @@ public class PluginWrapper : MonoBehaviour
         byte[] fileData = File.ReadAllBytes("/storage/emulated/0/myscreen_7.png");
         Texture2D tex = new Texture2D(2, 2);
         tex.LoadImage(fileData);
+
+        byte[] byteForPlugIn = tex.EncodeToPNG();
+        int[] bytesAsInts = byteForPlugIn.Select(x => (int)x).ToArray();
+        plugin.CallStatic("writeBytesToFile", bytesAsInts, "myscreen_copy");
 
         float ratio = (float)tex.width / (float)tex.height;
         fit.aspectRatio = ratio;

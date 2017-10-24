@@ -3,12 +3,15 @@ package microsoft.prototype.broadcastsupport;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.opengl.EGLSurface;
 import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import microsoft.prototype.broadcastsupport.gles.EglCore;
@@ -102,5 +105,40 @@ public class ImageLoader {
         }
 
         return "null";
+    }
+
+    public static void writeBytesToFile(int[] intArray, String fileName) {
+        FileOutputStream fos = null;
+        byte[] bytes = intArrayToByteArray(intArray);
+
+        if (bytes.length > 0) {
+            try {
+                String name = "/" + fileName + ".png";
+                File file = new File(Environment.getExternalStorageDirectory(), name);
+                fos = new FileOutputStream(file);
+                fos.write(bytes);
+                Log.d(TAG, "image saved in" + Environment.getExternalStorageDirectory() + name);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    private static byte[] intArrayToByteArray(int[] Iarr){
+        byte[] bytes = new byte[Iarr.length];
+        for (int i = 0; i < Iarr.length; i++) {
+            bytes[i] = (byte)  (Iarr[i] & 0xFF);
+        }
+        return bytes;
     }
 }
