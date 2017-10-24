@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.style.IconMarginSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ public class LoadImageActivity extends AppCompatActivity {
     private TextView textView;
     private EditText editText;
     private String filePath;
+
+    private Bitmap loadedImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +59,16 @@ public class LoadImageActivity extends AppCompatActivity {
                 if (editText != null) {
                     filePath = editText.getText().toString();
                     if (!TextUtils.isEmpty(filePath)) {
-                        Bitmap loadedImg = ImageLoader.loadBitmap(filePath);
-                        if (loadedImg != null) {
-                            imageView.setImageBitmap(ImageLoader.loadBitmap(filePath));
-                            imageSizeTextView.setText(loadedImg.getWidth() + " x " + loadedImg.getHeight());
-                            Log.i(TAG, "Image loaded, size: " + loadedImg.getWidth() + " x " + loadedImg.getHeight());
-                        }
+                        loadedImg = ImageLoader.loadBitmap(filePath);
+                    } else {
+                        loadedImg = ImageLoader.loadBitmapFromSystemDrawable();
                     }
+                }
+
+                if (loadedImg != null) {
+                    imageView.setImageBitmap(loadedImg);
+                    imageSizeTextView.setText(loadedImg.getWidth() + " x " + loadedImg.getHeight());
+                    Log.i(TAG, "Image loaded, size: " + loadedImg.getWidth() + " x " + loadedImg.getHeight());
                 }
             }
         });
