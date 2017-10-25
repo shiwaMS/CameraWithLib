@@ -34,6 +34,7 @@ import java.util.List;
 
 import microsoft.prototype.camerawithlib.R;
 
+// This Activity is not in used, entry point is LoadImageActivity
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
