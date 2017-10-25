@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/imageLoader.unity
-  isLoaded: 1
-  isActive: 1
