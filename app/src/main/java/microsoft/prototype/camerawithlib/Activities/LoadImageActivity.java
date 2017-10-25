@@ -5,16 +5,15 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.style.IconMarginSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import microsoft.prototype.braodcastsupport.LoadImage;
+import microsoft.prototype.broadcastsupport.ImageLoader;
 import microsoft.prototype.camerawithlib.R;
 
 public class LoadImageActivity extends AppCompatActivity {
@@ -22,9 +21,12 @@ public class LoadImageActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private Button loadButton;
+    private TextView imageSizeTextView;
     private TextView textView;
     private EditText editText;
     private String filePath;
+
+    private Bitmap loadedImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class LoadImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_load_image);
 
         this.imageView = (ImageView) findViewById(R.id.image_view);
+
+        this.imageSizeTextView = (TextView) findViewById(R.id.image_size_text);
 
         this.textView = (TextView) findViewById(R.id.image_folder_text);
         final String folderPath = Environment.getExternalStorageDirectory().toString();
@@ -41,7 +45,8 @@ public class LoadImageActivity extends AppCompatActivity {
         this.editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(folderPath) && TextUtils.isEmpty(editText.getText())){}
+                if (!TextUtils.isEmpty(folderPath) && TextUtils.isEmpty(editText.getText())) {
+                }
                 editText.setText(folderPath);
                 editText.setSelection(editText.getText().length());
             }
@@ -54,11 +59,16 @@ public class LoadImageActivity extends AppCompatActivity {
                 if (editText != null) {
                     filePath = editText.getText().toString();
                     if (!TextUtils.isEmpty(filePath)) {
-                        Bitmap loadedImg = LoadImage.loadBitmap(filePath);
-                        if (loadedImg != null) {
-                            imageView.setImageBitmap(LoadImage.loadBitmap(filePath));
-                        }
+                        loadedImg = ImageLoader.loadBitmap(filePath);
+                    } else {
+                        loadedImg = ImageLoader.loadBitmapFromSystemDrawable();
                     }
+                }
+
+                if (loadedImg != null) {
+                    imageView.setImageBitmap(loadedImg);
+                    imageSizeTextView.setText(loadedImg.getWidth() + " x " + loadedImg.getHeight());
+                    Log.i(TAG, "Image loaded, size: " + loadedImg.getWidth() + " x " + loadedImg.getHeight());
                 }
             }
         });

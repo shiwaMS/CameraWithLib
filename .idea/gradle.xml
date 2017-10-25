@@ -9,7 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/braodcastsupport" />
+            <option value="$PROJECT_DIR$/broadcastsupport" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

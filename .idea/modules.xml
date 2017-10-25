@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CameraWithLib.iml" filepath="$PROJECT_DIR$/CameraWithLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/braodcastsupport/braodcastsupport.iml" filepath="$PROJECT_DIR$/braodcastsupport/braodcastsupport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/broadcastsupport/broadcastsupport.iml" filepath="$PROJECT_DIR$/broadcastsupport/broadcastsupport.iml" />
     </modules>
   </component>
 </project>
